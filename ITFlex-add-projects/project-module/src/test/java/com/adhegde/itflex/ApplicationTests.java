@@ -1,4 +1,4 @@
-package com.scienceGateway.nineToFiveIt;
+package com.adhegde.itflex;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

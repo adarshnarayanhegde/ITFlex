@@ -1,4 +1,4 @@
-package com.scienceGateway.nineToFiveIt.repositories;
+package com.adhegde.itflex.repositories;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
