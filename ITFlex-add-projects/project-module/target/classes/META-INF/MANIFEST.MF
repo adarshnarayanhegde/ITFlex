@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: adarshnarayanhegde
+Build-Jdk: 12.0.2
+Implementation-Title: ITFlex
+Implementation-Version: v1.0.0
+Implementation-Vendor-Id: com.adhegde.itflex
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/ITFlex
+Created-By: Maven Integration for Eclipse
+
