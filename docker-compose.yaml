@@ -1,0 +1,86 @@
+version: '1.2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - 2181:2181
+    hostname: zookeeper
+    networks: 
+      - adhegde_itflex
+
+  api-gateway:
+    build: './ITFlex-api-gateway/api-server'
+    ports: 
+      - 8090:8090
+    networks: 
+      - adhegde_itflex
+    depends_on: 
+      - zookeeper
+      - add-projects
+      - user-management
+      - search-filter
+    restart: unless-stopped
+
+  add-projects:
+    build: './ITFlex-add-projects/project-module'
+    ports:
+      - 3004:3000
+    depends_on:
+      - zookeeper
+      - add-project-db
+    networks: 
+      - adhegde_itflex
+
+  user-management:
+    build: './ITFlex-add-projects/user-module'
+    ports:
+      - 3001:3000
+    networks: 
+      - adhegde_itflex
+    depends_on:
+      - zookeeper
+      - user-management-db
+
+
+  search-filter:
+    build: './ITFlex-search-filter/'
+    ports:
+      - 3003:3000
+    networks: 
+      - adhegde_itflex
+    depends_on:
+      - zookeeper
+      - add-project-db
+      - user-management-db
+      
+
+  add-project-db:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes: 
+      - ./docker/add-projects/data:/data/db
+    networks: 
+      - adhegde_itflex
+
+  user-management-db:
+    image: mongo
+    ports:
+      - 27018:27017
+    volumes: 
+      - ./docker/user-namagement/data:/data/db
+    networks: 
+      - adhegde_itflex
+
+
+  ui:
+    build: './ITFlex-user-interface/ui-module'
+    ports: 
+      - 80:80
+    networks: 
+      - adhegde_itflex
+    depends_on: 
+      - api-gateway
+
+networks: 
+  adhegde_itflex:
