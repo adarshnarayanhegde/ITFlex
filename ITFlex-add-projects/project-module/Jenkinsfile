@@ -1,0 +1,16 @@
+node {
+    stage("Git clone") {
+        git branch: 'add-project', url: 'https://github.com/adarshnarayanhegde/ITFlex.git'
+    }
+
+    stage("Build Docker Image") {
+         sh "docker build -t adhegde/itflex-ui /var/lib/jenkins/workspace/AddProjects/add-project/"
+    }
+
+    stage("Docker image push") {
+        withCredentials([string(credentialsId: 'DockerPassword', variable: 'DockerPassword')]) {
+            sh "docker login -u adhegde -p ${DockerPassword}"
+        }
+        sh "docker push adhegde/itflex-ui"
+    }
+}
