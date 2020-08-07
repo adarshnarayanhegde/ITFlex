@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: search-filter
+  name: search-filter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-filter
+  template:
+    metadata:
+      labels:
+        app: search-filter
+    spec:
+      containers:
+      - image: docker.io/adhegde/search-filter
+        name: search-filter
+        ports:
+        - containerPort: 3000
+      restartPolicy: Always

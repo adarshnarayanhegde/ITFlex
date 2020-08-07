@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: user-interface
+  name: user-interface
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-interface
+  template:
+    metadata:
+      labels:
+        app: user-interface
+    spec:
+      containers:
+      - image: docker.io/adhegde/itflex-ui
+        name: user-interface
+        ports:
+        - containerPort: 80
+      restartPolicy: Always

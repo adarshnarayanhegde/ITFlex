@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: add-projects
+  name: add-projects
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-projects
+  template:
+    metadata:
+      labels:
+        app: add-projects
+    spec:
+      containers:
+      - image: docker.io/adhegde/add-project
+      restartPolicy: Always
