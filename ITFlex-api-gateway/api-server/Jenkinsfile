@@ -23,5 +23,5 @@ node {
           kubectl delete deployment api-gateway &&
           kubectl apply -f ."
           '''
-     }
+      }
 }
