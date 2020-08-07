@@ -13,4 +13,15 @@ node {
         }
         sh "docker push adhegde/api-gateway"
     }
+
+    stage('Redeploy Kubernetes') {
+          sh '''
+          ssh -i ~/itflex.pem ubuntu@149.165.171.174  " rm -rf ~/ITFlex &&
+          git clone --single-branch --branch dev https://github.com/adarshnarayanhegde/ITFlex.git &&
+          cd ~/ITFlex/Kubernetes/api-gateway &&
+          kubectl delete service api-gateway &&
+          kubectl delete deployment api-gateway &&
+          kubectl apply -f ."
+          '''
+      }
 }
