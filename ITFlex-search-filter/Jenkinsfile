@@ -4,13 +4,24 @@ node {
     }
 
     stage("Build Docker Image") {
-         sh "docker build -t adhegde/itflex-ui /var/lib/jenkins/workspace/SearchFilter/search-filter/"
+         sh "docker build -t adhegde/itflex-search-filter /var/lib/jenkins/workspace/SearchFilter/search-filter/"
     }
 
     stage("Docker image push") {
         withCredentials([string(credentialsId: 'DockerPassword', variable: 'DockerPassword')]) {
             sh "docker login -u adhegde -p ${DockerPassword}"
         }
-        sh "docker push adhegde/itflex-ui"
+        sh "docker push adhegde/itflex-search-filter"
     }
+
+    stage('Redeploy Kubernetes') {
+          sh '''
+          ssh -i ~/itflex.pem ubuntu@149.165.171.174  " rm -rf ~/ITFlex &&
+          git clone --single-branch --branch dev https://github.com/adarshnarayanhegde/ITFlex.git &&
+          cd ~/ITFlex/Kubernetes/search-filter &&
+          kubectl delete service search-filter &&
+          kubectl delete deployment search-filter &&
+          kubectl apply -f ."
+          '''
+      }
 }
